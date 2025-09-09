@@ -6,8 +6,9 @@ import { Player } from './Player.js';
 import { Enemy } from './Enemy.js';
 import { checkEntityCollision } from '../utils/collision.js';
 import { createScoreManager, saveHighScore, initializeScoring } from '../utils/scoring.js';
+import { soundManager } from '../utils/sounds.js';
 export class Game {
-    constructor(container) {
+    constructor() {
         this.animationId = null;
         // Contrainte technique : Fonction fléchée pour démarrage
         this.startGame = async () => {
@@ -51,7 +52,6 @@ export class Game {
                 this.animationId = requestAnimationFrame(this.gameLoop);
             }
         };
-        this.gameContainer = container;
         // Contrainte technique : Configuration centralisée
         this.config = {
             gridWidth: 15,
@@ -77,22 +77,24 @@ export class Game {
     }
     // Initialisation des éléments DOM
     initializeDOM() {
-        // Contrainte technique : createElement pour éléments dynamiques
-        this.scoreElement = document.createElement('div');
-        this.scoreElement.id = 'score-display';
-        this.scoreElement.className = 'score-display';
-        this.messageElement = document.createElement('div');
-        this.messageElement.id = 'game-message';
-        this.messageElement.className = 'game-message';
-        // Contrainte technique : appendChild pour ajout d'éléments
-        this.gameContainer.appendChild(this.scoreElement);
-        this.gameContainer.appendChild(this.messageElement);
+        // Utiliser les éléments existants du HTML au lieu de les créer
+        this.scoreElement = document.getElementById('score-display');
+        this.messageElement = document.getElementById('game-message');
+        if (!this.scoreElement) {
+            throw new Error('Élément score-display introuvable dans le HTML');
+        }
+        if (!this.messageElement) {
+            throw new Error('Élément game-message introuvable dans le HTML');
+        }
+        console.log('✅ Éléments DOM trouvés et initialisés');
     }
     // Contrainte technique : async/await pour initialisation
     async initializeGame() {
         try {
             // Contrainte technique : await pour opération asynchrone
             const scoringData = await initializeScoring();
+            // Initialiser les sons
+            await soundManager.initializeSounds();
             // Contrainte technique : Template literals
             console.log(`Initialisation: Meilleur score = ${scoringData.highScore}`);
             this.setupGrid();
@@ -176,6 +178,8 @@ export class Game {
     checkCollisions() {
         // Collision joueur-ennemi
         if (checkEntityCollision(this.player, this.enemy)) {
+            // Jouer le son de mort
+            soundManager.playDeath();
             this.endGame(false); // Défaite
         }
     }

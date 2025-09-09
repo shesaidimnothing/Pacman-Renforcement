@@ -16,8 +16,8 @@ const initializeApp = async (): Promise<void> => {
   try {
     console.log('🎮 Initialisation du jeu Pac-Man...');
     
-    // Contrainte technique : Promesses avec .then()/.catch()
-    const container = await getGameContainer()
+    // Vérifier que le container existe
+    await getGameContainer()
       .then(element => {
         console.log('✅ Container de jeu trouvé');
         return element;
@@ -34,7 +34,7 @@ const initializeApp = async (): Promise<void> => {
     console.log(`📊 Données de scoring chargées: Record = ${scoringData.highScore}`);
 
     // Créer l'instance du jeu
-    gameInstance = new Game(container);
+    gameInstance = new Game();
     
     // Configurer les contrôles de l'interface
     setupGameControls();

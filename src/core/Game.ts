@@ -8,6 +8,7 @@ import { Player } from './Player.js';
 import { Enemy } from './Enemy.js';
 import { checkEntityCollision } from '../utils/collision.js';
 import { createScoreManager, saveHighScore, initializeScoring } from '../utils/scoring.js';
+import { soundManager } from '../utils/sounds.js';
 
 export class Game {
   private gameState: GameState;
@@ -18,13 +19,10 @@ export class Game {
   private dots: Set<string>;
   private animationId: number | null = null;
   private scoreManager: ReturnType<typeof createScoreManager>;
-  private gameContainer: HTMLElement;
   private scoreElement!: HTMLElement;
   private messageElement!: HTMLElement;
 
-  constructor(container: HTMLElement) {
-    this.gameContainer = container;
-    
+  constructor() {
     // Contrainte technique : Configuration centralisée
     this.config = {
       gridWidth: 15,
@@ -55,18 +53,19 @@ export class Game {
 
   // Initialisation des éléments DOM
   private initializeDOM(): void {
-    // Contrainte technique : createElement pour éléments dynamiques
-    this.scoreElement = document.createElement('div');
-    this.scoreElement.id = 'score-display';
-    this.scoreElement.className = 'score-display';
+    // Utiliser les éléments existants du HTML au lieu de les créer
+    this.scoreElement = document.getElementById('score-display') as HTMLElement;
+    this.messageElement = document.getElementById('game-message') as HTMLElement;
     
-    this.messageElement = document.createElement('div');
-    this.messageElement.id = 'game-message';
-    this.messageElement.className = 'game-message';
+    if (!this.scoreElement) {
+      throw new Error('Élément score-display introuvable dans le HTML');
+    }
     
-    // Contrainte technique : appendChild pour ajout d'éléments
-    this.gameContainer.appendChild(this.scoreElement);
-    this.gameContainer.appendChild(this.messageElement);
+    if (!this.messageElement) {
+      throw new Error('Élément game-message introuvable dans le HTML');
+    }
+    
+    console.log('✅ Éléments DOM trouvés et initialisés');
   }
 
   // Contrainte technique : async/await pour initialisation
@@ -74,6 +73,9 @@ export class Game {
     try {
       // Contrainte technique : await pour opération asynchrone
       const scoringData = await initializeScoring();
+      
+      // Initialiser les sons
+      await soundManager.initializeSounds();
       
       // Contrainte technique : Template literals
       console.log(`Initialisation: Meilleur score = ${scoringData.highScore}`);
@@ -225,6 +227,8 @@ export class Game {
   private checkCollisions(): void {
     // Collision joueur-ennemi
     if (checkEntityCollision(this.player, this.enemy)) {
+      // Jouer le son de mort
+      soundManager.playDeath();
       this.endGame(false); // Défaite
     }
   }

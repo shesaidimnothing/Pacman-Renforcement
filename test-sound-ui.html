@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Son de Mort et Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #2c3e50; color: white; }
+        .test-container { max-width: 900px; margin: 0 auto; }
+        .feature-box { background: rgba(255,255,255,0.1); padding: 20px; margin: 15px 0; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); }
+        .feature-title { color: #3498db; font-size: 1.4rem; margin-bottom: 15px; }
+        .feature-description { line-height: 1.6; }
+        .test-button { display: inline-block; padding: 15px 30px; background: #e74c3c; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px 5px; transition: all 0.3s; }
+        .test-button:hover { background: #c0392b; transform: translateY(-2px); }
+        .sound-demo { background: #34495e; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .ui-preview { background: #27ae60; padding: 20px; border-radius: 15px; text-align: center; font-size: 1.2rem; margin: 15px 0; animation: victoryPulse 2s ease-in-out infinite alternate; }
+        @keyframes victoryPulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+        .code-block { background: #1e1e1e; color: #f8f8f2; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; margin: 10px 0; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎵 Test des Nouvelles Fonctionnalités Audio et UI</h1>
+        
+        <div class="feature-box">
+            <div class="feature-title">🔊 1. Son de Mort de Pac-Man</div>
+            <div class="feature-description">
+                <strong>Nouvelle fonctionnalité :</strong> Quand le joueur entre en collision avec l'ennemi, le célèbre son de mort de Pac-Man se joue automatiquement.
+                
+                <div class="sound-demo">
+                    <strong>🎵 Fichier audio :</strong> <code>styles/sounds/Pac-Man Death - Sound Effect (HD).mp3</code><br>
+                    <strong>🔧 Gestionnaire :</strong> <code>src/utils/sounds.ts</code><br>
+                    <strong>⚡ Déclenchement :</strong> Collision joueur-ennemi dans <code>Game.ts</code>
+                </div>
+                
+                <strong>Fonctionnalités du gestionnaire de sons :</strong>
+                <ul>
+                    <li>Chargement asynchrone des sons avec promesses</li>
+                    <li>Gestion d'erreurs robuste</li>
+                    <li>Volume configurable</li>
+                    <li>Support pour plusieurs sons (extensible)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🎯 2. Interface Utilisateur Corrigée</div>
+            <div class="feature-description">
+                <strong>Problèmes résolus :</strong>
+                <ul>
+                    <li>✅ <strong>Score unique :</strong> Suppression du double affichage, le score s'affiche maintenant uniquement en haut</li>
+                    <li>✅ <strong>Message de victoire repositionné :</strong> Apparaît maintenant juste sous les boutons Démarrer/Redémarrer</li>
+                    <li>✅ <strong>Utilisation des éléments HTML existants :</strong> Plus de duplication d'éléments DOM</li>
+                </ul>
+                
+                <div class="ui-preview">
+                    🎉 VICTOIRE ! 🎉<br><br>
+                    Score: 1250 points<br>
+                    🏆 NOUVEAU RECORD! 🏆<br><br>
+                    🎮 Félicitations ! Tous les points collectés !
+                </div>
+                <p style="text-align: center; color: #bdc3c7; font-style: italic;">
+                    ↑ Exemple du nouveau message de victoire (avec animation)
+                </p>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🔧 3. Architecture Technique</div>
+            <div class="feature-description">
+                <strong>Gestionnaire de Sons (sounds.ts) :</strong>
+                <div class="code-block">
+// Contraintes techniques utilisées :
+- Closures : createSoundManager()
+- Promesses : loadSound() avec new Promise
+- async/await : initializeSounds()
+- Promise.all : chargement parallèle
+- Gestion d'erreurs : try/catch
+- Map pour stockage : sounds: Map&lt;string, HTMLAudioElement&gt;
+                </div>
+                
+                <strong>Intégration dans Game.ts :</strong>
+                <div class="code-block">
+// Import du gestionnaire
+import { soundManager } from '../utils/sounds.js';
+
+// Initialisation
+await soundManager.initializeSounds();
+
+// Utilisation lors de collision
+if (checkEntityCollision(this.player, this.enemy)) {
+    soundManager.playDeath(); // 🔊 Son de mort
+    this.endGame(false);
+}
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🎮 Instructions de Test</div>
+            <div class="feature-description">
+                <ol>
+                    <li><strong>Test du son :</strong>
+                        <ul>
+                            <li>Démarrer le jeu</li>
+                            <li>Se faire attraper par l'ennemi rouge</li>
+                            <li>Vérifier que le son de mort se joue</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Test de l'interface :</strong>
+                        <ul>
+                            <li>Vérifier que le score s'affiche uniquement en haut</li>
+                            <li>Collecter tous les points pour voir le message de victoire sous les boutons</li>
+                            <li>Tester le redémarrage</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Console de développement :</strong>
+                        <ul>
+                            <li>Ouvrir F12 pour voir les logs de chargement des sons</li>
+                            <li>Vérifier les messages : "🔊 Son chargé: death"</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="index.html" class="test-button">🎮 Lancer le Jeu avec Son</a>
+            <a href="test-alignment.html" class="test-button">🧪 Test Précédent</a>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">⚠️ Résolution de Problèmes</div>
+            <div class="feature-description">
+                <strong>Si le son ne fonctionne pas :</strong>
+                <ul>
+                    <li>Vérifiez que le fichier <code>styles/sounds/Pac-Man Death - Sound Effect (HD).mp3</code> existe</li>
+                    <li>Certains navigateurs bloquent l'audio automatique - interagissez d'abord avec la page</li>
+                    <li>Vérifiez la console pour les erreurs de chargement</li>
+                    <li>Vérifiez que le volume de votre système n'est pas coupé</li>
+                </ul>
+                
+                <strong>Si l'interface a des problèmes :</strong>
+                <ul>
+                    <li>Actualisez la page (Ctrl+F5)</li>
+                    <li>Vérifiez que tous les éléments HTML ont les bons IDs</li>
+                    <li>Consultez la console pour les erreurs JavaScript</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

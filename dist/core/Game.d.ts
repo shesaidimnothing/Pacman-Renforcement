@@ -12,10 +12,9 @@ export declare class Game {
     private dots;
     private animationId;
     private scoreManager;
-    private gameContainer;
     private scoreElement;
     private messageElement;
-    constructor(container: HTMLElement);
+    constructor();
     private initializeDOM;
     private initializeGame;
     private setupGrid;
