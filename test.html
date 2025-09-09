@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Pac-Man - Timing Fix</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-info { background: #f0f0f0; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+        .console-log { background: #000; color: #00ff00; padding: 10px; font-family: monospace; margin: 10px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>🧪 Test de Correction du Timing</h2>
+        <p><strong>Problème corrigé :</strong> L'ennemi ne bougeait pas à cause d'un problème de timing avec <code>performance.now()</code> vs <code>Date.now()</code></p>
+        
+        <h3>✅ Corrections apportées :</h3>
+        <ul>
+            <li>Initialisation de <code>lastMoveTime</code> à <code>0</code> au lieu de <code>Date.now()</code></li>
+            <li>Utilisation cohérente de <code>performance.now()</code> dans toute la boucle de jeu</li>
+            <li>Simplification des logs de debug</li>
+            <li>Correction du calcul de différence de temps</li>
+        </ul>
+        
+        <h3>🎮 Instructions de test :</h3>
+        <ol>
+            <li>Ouvrez la console de développement (F12)</li>
+            <li>Cliquez sur "Démarrer le jeu" ci-dessous</li>
+            <li>L'ennemi devrait maintenant bouger toutes les 800ms</li>
+            <li>Vous devriez voir des logs comme : <code>👻 Ennemi bouge vers right → (14, 1)</code></li>
+        </ol>
+        
+        <div class="console-log">
+            Console attendue :<br>
+            🚀 Démarrage du jeu...<br>
+            👻 Position initiale ennemi: {x: 13, y: 1}<br>
+            🟨 Position initiale joueur: {x: 1, y: 1}<br>
+            👻 Ennemi bouge vers right → (14, 1)<br>
+            👻 Ennemi bouge vers down → (14, 2)<br>
+            ...
+        </div>
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="index.html" style="display: inline-block; padding: 15px 30px; background: #3498db; color: white; text-decoration: none; border-radius: 8px; font-size: 18px;">
+            🎮 Lancer le Jeu Corrigé
+        </a>
+    </div>
+    
+    <div style="margin-top: 30px; padding: 15px; background: #e8f5e8; border-radius: 8px;">
+        <h3>🔧 Auto-compilation</h3>
+        <p>Pour surveiller automatiquement les changements :</p>
+        <pre style="background: #f8f8f8; padding: 10px; border-radius: 4px;">
+# Dans le terminal :
+./watch.sh
+# ou
+npm run watch
+# ou  
+tsc --watch
+        </pre>
+    </div>
+</body>
+</html>

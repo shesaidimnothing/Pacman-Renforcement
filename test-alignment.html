@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Alignement et Victoire</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .test-container { max-width: 800px; margin: 0 auto; }
+        .feature-box { background: white; padding: 20px; margin: 15px 0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .feature-title { color: #2c3e50; font-size: 1.3rem; margin-bottom: 10px; }
+        .feature-description { color: #7f8c8d; line-height: 1.6; }
+        .test-button { display: inline-block; padding: 15px 30px; background: #3498db; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px 5px; transition: background 0.3s; }
+        .test-button:hover { background: #2980b9; }
+        .victory-preview { background: linear-gradient(135deg, #27ae60, #229954); color: white; padding: 20px; border-radius: 15px; text-align: center; font-size: 1.2rem; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎮 Test des Nouvelles Fonctionnalités</h1>
+        
+        <div class="feature-box">
+            <div class="feature-title">✅ 1. Alignement Parfait des Icônes</div>
+            <div class="feature-description">
+                <strong>Problème résolu :</strong> Les icônes du joueur et de l'ennemi sont maintenant parfaitement alignées sur la grille.<br><br>
+                <strong>Améliorations :</strong>
+                <ul>
+                    <li>Calcul précis des positions avec padding</li>
+                    <li>Alignement sur le centre de chaque cellule</li>
+                    <li>Positionnement cohérent pour toutes les tailles d'écran</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🎉 2. Message de Victoire Spectaculaire</div>
+            <div class="feature-description">
+                <strong>Nouvelles fonctionnalités :</strong>
+                <ul>
+                    <li>L'ennemi disparaît automatiquement quand il ne reste plus de points</li>
+                    <li>Grand message de victoire avec animation</li>
+                    <li>Affichage du score final et des records</li>
+                    <li>Design différencié victoire/défaite</li>
+                </ul>
+                
+                <div class="victory-preview">
+                    🎉 VICTOIRE ! 🎉<br><br>
+                    Score: 1250 points<br>
+                    🏆 NOUVEAU RECORD! 🏆<br><br>
+                    🎮 Félicitations ! Tous les points collectés !
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🔄 3. Redémarrage Amélioré</div>
+            <div class="feature-description">
+                <strong>Corrections :</strong>
+                <ul>
+                    <li>L'ennemi redevient visible après redémarrage</li>
+                    <li>Positions initiales correctes</li>
+                    <li>Réinitialisation complète de tous les états</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🎯 Instructions de Test</div>
+            <div class="feature-description">
+                <ol>
+                    <li><strong>Test d'alignement :</strong> Vérifiez que le joueur jaune et l'ennemi rouge sont bien centrés dans leurs cellules</li>
+                    <li><strong>Test de victoire :</strong> Collectez tous les points pour voir le message de victoire et la disparition de l'ennemi</li>
+                    <li><strong>Test de redémarrage :</strong> Après une partie, cliquez "Redémarrer" pour vérifier que tout se remet en place</li>
+                </ol>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="index.html" class="test-button">🎮 Lancer le Jeu</a>
+            <a href="test.html" class="test-button">🧪 Page de Test Précédente</a>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">🔧 Détails Techniques</div>
+            <div class="feature-description">
+                <strong>Alignement des entités :</strong>
+                <pre style="background: #f8f8f8; padding: 10px; border-radius: 5px; overflow-x: auto;">
+// Calcul de position précis
+const cellSize = 40; // Taille d'une cellule
+const padding = 20;  // Padding du conteneur
+const x = this.position.x * cellSize + padding;
+const y = this.position.y * cellSize + padding;</pre>
+
+                <strong>Logique de victoire :</strong>
+                <pre style="background: #f8f8f8; padding: 10px; border-radius: 5px; overflow-x: auto;">
+// Quand tous les points sont collectés
+if (this.dots.size === 0) {
+    this.enemy.hide(); // Cacher l'ennemi
+    this.endGame(true); // Déclencher la victoire
+}</pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
